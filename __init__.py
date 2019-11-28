@@ -4,7 +4,7 @@ import os
 import time
 import requests
 from configuration import api
-from services.distance import distance, km_to_ly
+from utilities.distance import distance, km_to_ly
 from classes.system import SolarSystem
 INIT = False
 
