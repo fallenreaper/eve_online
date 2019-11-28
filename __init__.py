@@ -5,9 +5,11 @@ import time
 import requests
 from configuration import api
 from utilities.distance import distance, km_to_ly
-from classes.system import SolarSystem
+from classes.solar_system import SolarSystem
 from services.solar_system import SolarSystemService
+from typing import List
 INIT = False
+SOLAR_SYSTEMS: List[SolarSystem]= []
 
 def load_system_info(offset = 0):
 
@@ -41,11 +43,13 @@ def load_systems_into_memory():
 	return l
 
 def main():
+	global SOLAR_SYSTEMS
 	offset = 3676
 	if INIT:
 		load_system_info(offset)
 		return
 	l = load_systems_into_memory()
+	SOLAR_SYSTEMS = l
 
 	first_system = list(filter( lambda s: s.name.lower() == 'Jita'.lower(), l))
 	first_system = first_system[0] if len(first_system) > 0 else None
@@ -61,6 +65,28 @@ def main():
 
 	d = SolarSystemService.get_distance_ly_between_systems(first_system,second_system)
 	print("Distance AU: ", d )
+
+	print("Intersection of Systems between Samanuni and Y-4CFK")
+	three = list(filter( lambda s: s.name.lower() == 'Samanuni'.lower(), l))
+	three = three[0] if len(three) > 0 else None
+	if three is None:
+		print("Third System Not Found.")
+		return
+
+	four = list(filter( lambda s: s.name.lower() == 'Y-4CFK'.lower(), l))
+	four = four[0] if len(four) > 0 else None
+	if four is None:
+		print("Fourth Not Found.")
+		return
+
+	iter_three = list(SolarSystemService.get_all_systems_within_range(SOLAR_SYSTEMS,three, 10))
+	iter_four = list(SolarSystemService.get_all_systems_within_range(SOLAR_SYSTEMS,four, 10))
+	print("Sizes:", len(iter_three), len(iter_four))
+	intersection_systems = SolarSystemService.get_intersection_of_systems(iter_three, iter_four)
+	info = [s.name for s in intersection_systems]
+	print("Intersected Systems: ", info)
+	print("Size of Intersection: ", len(info))
+
 
 	
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 
-from classes.system import SolarSystem
+from classes.solar_system import SolarSystem
 import math
 def distance(a: SolarSystem, b: SolarSystem) -> int:
     """Return KM"""

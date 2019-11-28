@@ -1,2 +1,2 @@
-from .system import SolarSystem
+from .solar_system import SolarSystem
 from .planet import PlanetMetadata, Planet
