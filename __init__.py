@@ -64,7 +64,7 @@ def main():
 		return
 
 	d = SolarSystemService.get_distance_ly_between_systems(first_system,second_system)
-	print("Distance AU: ", d )
+	print("Distance LY: ", d )
 
 	print("Intersection of Systems between Samanuni and Y-4CFK")
 	three = list(filter( lambda s: s.name.lower() == 'Samanuni'.lower(), l))
@@ -81,12 +81,11 @@ def main():
 
 	iter_three = list(SolarSystemService.get_all_systems_within_range(SOLAR_SYSTEMS,three, 10))
 	iter_four = list(SolarSystemService.get_all_systems_within_range(SOLAR_SYSTEMS,four, 10))
-	print("Sizes:", len(iter_three), len(iter_four))
 	intersection_systems = SolarSystemService.get_intersection_of_systems(iter_three, iter_four)
 	info = [s.name for s in intersection_systems]
 	print("Intersected Systems: ", info)
 	print("Size of Intersection: ", len(info))
-
+	print("Which Systems in Results has Stations? ", [s.name for s in intersection_systems if len(s.stations)>0])
 
 	
 if __name__ == "__main__":
