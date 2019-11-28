@@ -6,6 +6,7 @@ import requests
 from configuration import api
 from utilities.distance import distance, km_to_ly
 from classes.system import SolarSystem
+from services.solar_system import SolarSystemService
 INIT = False
 
 def load_system_info(offset = 0):
@@ -58,9 +59,8 @@ def main():
 		print("Second System Not Found")
 		return
 
-	d = round(distance(first_system, second_system), 3)
-	print("Distance KM:", d)
-	print("Distance AU: ", km_to_ly(d) )
+	d = SolarSystemService.get_distance_ly_between_systems(first_system,second_system)
+	print("Distance AU: ", d )
 
 	
 if __name__ == "__main__":
